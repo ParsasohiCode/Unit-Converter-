@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Unit Converter</title>
+</head>
+<body>
+    <h1 style="display: inline-block;">Unit Converter</h1>
+    <select name="unit" id="unit" onchange="updateSelect()">
+      <option value="Length">Length</option>
+      <option value="Temperature">Temperature</option>
+      <option value="Weight">Weight</option>
+    </select>
+    
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p style="color: red;">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
+    <form action="{{ url_for('convert') }}" method="post">
+        <label for="input_value">Enter value:</label>
+        <input type="text" id="input_value" name="input_value" required>
+        <select name="from" id="from">
+            <option value="mm">mm</option>
+            <option value="cm">cm</option>
+            <option value="m">m</option>
+            <option value="km">km</option>
+            <option value="inch">inch</option>
+            <option value="foot">foot</option>
+            <option value="mile">mile</option>
+        </select>
+        <select name="to" id="to">
+            <option value="mm">mm</option>
+            <option value="cm">cm</option>
+            <option value="m">m</option>
+            <option value="km">km</option>
+            <option value="inch">inch</option>
+            <option value="foot">foot</option>
+            <option value="mile">mile</option>
+        </select>    
+        <button type="submit">Convert</button>
+    </form>
+
+    <script>
+      function updateSelect() {
+        const unitSelect = document.getElementById('unit').value;
+        let options = '';
+        
+        if (unitSelect === "Length") {
+          options = `
+            <option value="mm">mm</option>
+            <option value="cm">cm</option>
+            <option value="m">m</option>
+            <option value="km">km</option>
+            <option value="inch">inch</option>
+            <option value="foot">foot</option>
+            <option value="mile">mile</option>
+          `;
+        } else if (unitSelect === "Temperature") {
+          options = `
+            <option value="celsius">Celsius</option>
+            <option value="fahrenheit">Fahrenheit</option>
+            <option value="kelvin">Kelvin</option>
+          `;
+        } else if (unitSelect === "Weight") {
+          options = `
+            <option value="mg">mg</option>
+            <option value="g">g</option>
+            <option value="kg">kg</option>
+            <option value="lb">lb</option>
+          `;
+        }
+        document.getElementById('from').innerHTML = options;
+        document.getElementById('to').innerHTML = options;
+      }
+    </script>
+</body>
+</html>
